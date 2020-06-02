@@ -57,6 +57,12 @@ apacheApsVar %>%
   summarise(n = n()) %>%
   mutate(freq = n / sum(n))
 
+apacheApsVar %>%
+  mutate(low_bp = meanbp<65) %>%
+  group_by(low_bp) %>%
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n))
+
 # Histograms of APACHE variables
 apache_phys <- apacheApsVar %>%
   select(-apacheapsvarid, -intubated, -vent, -dialysis,
@@ -65,9 +71,16 @@ apache_phys <- apacheApsVar %>%
   filter(value>0) # filter out all the "-1" which is the NA equivalent
 
 apache_histograms <- ggplot(apache_phys, aes(value)) +
-  geom_histogram(bins = 30) +
+  geom_histogram(bins = 40) +
   facet_wrap(~var, scales = 'free') +
   xlab('')
+
+apache_vitals <- ggplot(filter(apache_phys, var=="heartrate" | 
+                                 var=="meanbp" |
+                                 var=="respiratoryrate" |
+                                 var=="temperature"), aes(value)) +
+  geom_histogram(binwidth=1) +
+  facet_wrap(~var, scales='free') + xlab('')
 
 # Interventions by unit, broken into tertiles
 apache_patient <- left_join(apacheApsVar, patients) %>%
