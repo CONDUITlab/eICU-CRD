@@ -30,6 +30,26 @@ treatment_resp <- read_csv("eicu_treatment_resp.csv")
 # (file saved as "eicu_treatment_resp_niv.csv")
 treatment_resp_niv <- read_csv("eicu_treatment_resp_niv.csv")
 
+# SELECT * FROM `physionet-data.eicu_crd.infusiondrug` 
+# where (drugname like "%ephrin%"
+#        or drugname like "%itrogly%"
+#        or drugname like "%iltiaz%"
+#        or drugname like "%ilrinon%"
+#        or drugname like "%olol%"
+#        or drugname like "%obutam%"
+#        or drugname like "%proteren%"
+#        or drugname like "%evophed%"
+#        or drugname like "%cardipine%"
+#        or drugname like "%asopressin%"
+#        or drugname like "%imacore%"
+#        or drugname like "%prussid%"
+#        or drugname like "%poporost%"
+#        or drugname like "%opamine%
+#        or drugname like "%miodaron%"
+#        or drugname like "%abetalol%")
+# (file saved as "eicu_infusiondrug.csv)
+infusions <- read_csv("eicu_infusiondrug.csv")
+
 # "physicalExam" table is queried in BigQuery
 # total size of table = SELECT distinct patientunitstayid FROM `physionet-data.eicu_crd.physicalexam`
 # 176379 rows in the table
@@ -137,7 +157,11 @@ length(apache_dialysis)/length(unique(apacheApsVar$patientunitstayid))
 # where treatmentstring like 'renal|dialysis%'										#
 #####################################################################################
 
-
+### Infusions
+# SELECT count(distinct patientunitstayid) FROM `physionet-data.eicu_crd.infusiondrug` 
+# 73,547 encounters that inolved any infusions
+length(unique(infusions$patientunitstayid))
+#38,353 that involved vasoactive infusions
 
 
 
