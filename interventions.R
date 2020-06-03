@@ -163,5 +163,10 @@ length(apache_dialysis)/length(unique(apacheApsVar$patientunitstayid))
 length(unique(infusions$patientunitstayid))
 #38,353 that involved vasoactive infusions
 
+# Patients who required no interventions
+vent_pressors <- union(respcare$patientunitstayid, infusions$patientunitstayid)
+intub_dial <- union(careplan_intubated, apache_dialysis)
+any_intervention <- union(vent_pressors, intub_dial)
+length(setdiff(patients$patientunitstayid, any_intervention))
 
-
+       
